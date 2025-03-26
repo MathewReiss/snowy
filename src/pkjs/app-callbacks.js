@@ -41,7 +41,7 @@ module.exports = {
 			}
 			else{
 				var xhr = new XMLHttpRequest();
-				xhr.open("GET", "http://api.wolframalpha.com/v2/query?input=" + encodeURIComponent(q.raw) + "&appid=" + (config.wolfram_key === "" ? "AJT2G4-L6W7AQVER4" : config.wolfram_key), false);
+				xhr.open("GET", "http://api.wolframalpha.com/v2/query?input=" + encodeURIComponent(q.raw) + "&appid=" + (config.wolfram_key === "" ? "<<WOLFRAM_API_KEY>>" : config.wolfram_key), false);
 				xhr.send();
 		
 				var xml = xhr.response;
@@ -391,7 +391,7 @@ module.exports = {
 			var lat = Config.getCoords().Lat;
 			var lon = Config.getCoords().Lon;
 			
-			var url = "http://api.tripadvisor.com/api/partner/2.0/map/" + lat + "," + lon + "/restaurants?key=a39ff9c1f7da4f688e305e36766d58e0&distance=1";
+			var url = "http://api.tripadvisor.com/api/partner/2.0/map/" + lat + "," + lon + "/restaurants?key=<<TRIPADVISOR_API_KEY>>&distance=1";
 			if(Config.getConfig().DistanceUnit === Config.getConfig().METRIC) url += "&lunit=km";
 			switch(Config.getLang()){
 				case "es" : url += "&lang=es"; break;
@@ -454,7 +454,7 @@ module.exports = {
 				}
 				
 				xhr = new XMLHttpRequest();
-				url = "http://www.mapquestapi.com/directions/v2/route?key=lt1UbgYg5P6UJMMXQA4q6ttC8tOUPwVy&from=" + coord.Lat + "," + coord.Lon + "&to=" + encodeURIComponent(Config.getRecent().Address) + "&routeType=pedestrian&enhancedNarrative=true";
+				url = "http://www.mapquestapi.com/directions/v2/route?key=<<MAPQUEST_API_KEY>>&from=" + coord.Lat + "," + coord.Lon + "&to=" + encodeURIComponent(Config.getRecent().Address) + "&routeType=pedestrian&enhancedNarrative=true";
 				if(Config.getConfig().DistanceUnit === Config.getConfig().METRIC) url += "&unit=k";
 				switch(Config.getLang()){
 					case "es": url += "&locale=es_ES"; break;
@@ -487,7 +487,7 @@ module.exports = {
 				}
 	
 				xhr = new XMLHttpRequest();
-				url = "http://www.mapquestapi.com/directions/v2/route?key=lt1UbgYg5P6UJMMXQA4q6ttC8tOUPwVy&from=" + coord.Lat + "," + coord.Lon + "&to=" + encodeURIComponent(Config.getConfig().HomeAddress) + "&routeType=pedestrian&enhancedNarrative=true";
+				url = "http://www.mapquestapi.com/directions/v2/route?key=<<MAPQUEST_API_KEY>>&from=" + coord.Lat + "," + coord.Lon + "&to=" + encodeURIComponent(Config.getConfig().HomeAddress) + "&routeType=pedestrian&enhancedNarrative=true";
 				if(Config.getConfig().DistanceUnit === Config.getConfig().METRIC) url += "&unit=k";
 				switch(Config.getLang()){
 					case "es": url += "&locale=es_ES"; break;
@@ -515,7 +515,7 @@ module.exports = {
 				q.array.splice(0,1);
 				
 				xhr = new XMLHttpRequest();
-				url = "http://www.mapquestapi.com/directions/v2/route?key=lt1UbgYg5P6UJMMXQA4q6ttC8tOUPwVy&from=" + coord.Lat + "," + coord.Lon + "&to=" + encodeURIComponent(q.array.join(' ')) + "&routeType=pedestrian&enhancedNarrative=true";
+				url = "http://www.mapquestapi.com/directions/v2/route?key=<<MAPQUEST_API_KEY>>&from=" + coord.Lat + "," + coord.Lon + "&to=" + encodeURIComponent(q.array.join(' ')) + "&routeType=pedestrian&enhancedNarrative=true";
 				if(Config.getConfig().DistanceUnit === Config.getConfig().METRIC) url += "&unit=k";
 				switch(Config.getLang()){
 					case "es": url += "&locale=es_ES"; break;
@@ -1140,13 +1140,13 @@ module.exports = {
 					return;
 				}
 				
-				url = "http://api.openweathermap.org/data/2.5/weather?q="+encodeURIComponent(Config.getConfig().HomeAddress)+"&APPID=17c9f782abc336c36774712c432b6f10";
+				url = "http://api.openweathermap.org/data/2.5/weather?q="+encodeURIComponent(Config.getConfig().HomeAddress)+"&APPID=<<OWM_APP_ID>>";
 			}
 			else if(q.raw.indexOf(_(' in ')) !== -1 || q.array.indexOf(_(' for ')) !== -1){
 				//Specific City
 				var city = q.array.join(' ');
 				city = encodeURIComponent(city);
-				url = "http://api.openweathermap.org/data/2.5/weather?q="+city+"&APPID=17c9f782abc336c36774712c432b6f10";
+				url = "http://api.openweathermap.org/data/2.5/weather?q="+city+"&APPID=<<OWM_APP_ID>>";
 			}	
 			else{
 				if(!navigator || !navigator.geolocation || (coord.Lat === 0 && coord.Lon === 0)){
@@ -1155,7 +1155,7 @@ module.exports = {
 				}
 				
 				//Local
-				url = "http://api.openweathermap.org/data/2.5/weather?lat="+coord.Lat+"&lon="+coord.Lon+"&APPID=17c9f782abc336c36774712c432b6f10";
+				url = "http://api.openweathermap.org/data/2.5/weather?lat="+coord.Lat+"&lon="+coord.Lon+"&APPID=<<OWM_APP_ID>>";
 			}
 			
 			xhr.open("GET", url, false);
@@ -1211,7 +1211,7 @@ module.exports = {
 				location = location.join("/");
 				
 				if(Config.getConfig().WuKey === ""){ //Home Location, Default Key
-					url = "http://api.wunderground.com/api/8fd6442e08cd60f5" + langParams + "/q/" + location + ".json";
+					url = "http://api.wunderground.com/api/<<WU_API_KEY>>" + langParams + "/q/" + location + ".json";
 				}
 				else{ //Home Location, Custom Key
 					url = "http://api.wunderground.com/api/" + Config.getConfig().WuKey + langParams + "/q/" + location + ".json";
@@ -1235,7 +1235,7 @@ module.exports = {
 				}
 				
 				if(Config.getConfig().WuKey === ""){ //Specific City, Default Key
-					url = "http://api.wunderground.com/api/8fd6442e08cd60f5" + langParams + "/q/" + location + ".json";
+					url = "http://api.wunderground.com/api/<<WU_API_KEY>>" + langParams + "/q/" + location + ".json";
 				}
 				else{ //Specific City, Custom Key
 					url = "http://api.wunderground.com/api/" + Config.getConfig().WuKey + langParams + "/q/" + location + ".json";
@@ -1248,7 +1248,7 @@ module.exports = {
 				}
 				
 				if(Config.getConfig().WuKey === ""){ //Current Location, Default Key
-					url = "http://api.wunderground.com/api/8fd6442e08cd60f5" + langParams + "/q/" + coord.Lat + "," + coord.Lon + ".json";
+					url = "http://api.wunderground.com/api/<<WU_API_KEY>>" + langParams + "/q/" + coord.Lat + "," + coord.Lon + ".json";
 				}
 				else{ //Current Location, Custom Key
 					url = "http://api.wunderground.com/api/" + Config.getConfig().WuKey + langParams + "/q/" + coord.Lat + "," + coord.Lon + ".json";
@@ -1316,13 +1316,13 @@ module.exports = {
 					return;
 				}
 				
-				url = "http://api.openweathermap.org/data/2.5/forecast/daily?q="+encodeURIComponent(Config.getConfig().HomeAddress)+"&cnt=2&mode=json&APPID=17c9f782abc336c36774712c432b6f10";
+				url = "http://api.openweathermap.org/data/2.5/forecast/daily?q="+encodeURIComponent(Config.getConfig().HomeAddress)+"&cnt=2&mode=json&APPID=<<OWM_APP_ID>>";
 			}
 			else if(q.raw.indexOf(_(' in ')) !== -1 || q.raw.indexOf(_(' for ')) !== -1){
 				//Specific City
 				var city = q.array.join(' ');
 				city = encodeURIComponent(city);
-				url = "http://api.openweathermap.org/data/2.5/forecast/daily?q="+city+"&cnt=2&mode=json&APPID=17c9f782abc336c36774712c432b6f10";
+				url = "http://api.openweathermap.org/data/2.5/forecast/daily?q="+city+"&cnt=2&mode=json&APPID=<<OWM_APP_ID>>";
 			}	
 			else{	
 				if(!navigator || !navigator.geolocation || (coord.Lat === 0 && coord.Lon === 0)){
@@ -1331,7 +1331,7 @@ module.exports = {
 				}
 				
 				//Local
-				url = "http://api.openweathermap.org/data/2.5/forecast/daily?lat="+coord.Lat+"&lon="+coord.Lon+"&cnt=2&mode=json&APPID=17c9f782abc336c36774712c432b6f10";
+				url = "http://api.openweathermap.org/data/2.5/forecast/daily?lat="+coord.Lat+"&lon="+coord.Lon+"&cnt=2&mode=json&APPID=<<OWM_APP_ID>>";
 			}
 			
 			xhr.open("GET", url, false);
@@ -1383,7 +1383,7 @@ module.exports = {
 				location = location.join("/");
 				
 				if(Config.getConfig().WuKey === ""){ //Home Location, Default Key
-					url = "http://api.wunderground.com/api/8fd6442e08cd60f5" + langParams + "/q/" + location + ".json";
+					url = "http://api.wunderground.com/api/<<WU_API_KEY>>" + langParams + "/q/" + location + ".json";
 				}
 				else{ //Home Location, Custom Key
 					url = "http://api.wunderground.com/api/" + Config.getConfig().WuKey + langParams + "/q/" + location + ".json";
@@ -1409,7 +1409,7 @@ module.exports = {
 				location = array.join('/');
 						
 				if(Config.getConfig().WuKey === ""){ //Specific City, Default Key
-					url = "http://api.wunderground.com/api/8fd6442e08cd60f5" + langParams + "/q/" + location + ".json";
+					url = "http://api.wunderground.com/api/<<WU_API_KEY>>" + langParams + "/q/" + location + ".json";
 				}
 				else{ //Specific City, Custom Key
 					url = "http://api.wunderground.com/api/" + Config.getConfig().WuKey + langParams + "/q/" + location + ".json";
@@ -1422,7 +1422,7 @@ module.exports = {
 				}
 				
 				if(Config.getConfig().WuKey === ""){ //Current Location, Default Key
-					url = "http://api.wunderground.com/api/8fd6442e08cd60f5" + langParams + "/q/" + coord.Lat + "," + coord.Lon + ".json";
+					url = "http://api.wunderground.com/api/<<WU_API_KEY>>" + langParams + "/q/" + coord.Lat + "," + coord.Lon + ".json";
 				}
 				else{ //Current Location, Custom Key
 					url = "http://api.wunderground.com/api/" + Config.getConfig().WuKey + langParams + "/q/" + coord.Lat + "," + coord.Lon + ".json";
@@ -1497,7 +1497,7 @@ module.exports = {
 			var coord = Config.getCoords();
 			
 			if(Config.getConfig().WuKey === ""){ //Current Location, Default Key
-				url = "http://api.wunderground.com/api/8fd6442e08cd60f5/hourly/q/" + coord.Lat + "," + coord.Lon + ".json";
+				url = "http://api.wunderground.com/api/<<WU_API_KEY>>/hourly/q/" + coord.Lat + "," + coord.Lon + ".json";
 			}
 			else{ //Current Location, Custom Key
 				url = "http://api.wunderground.com/api/" + Config.getConfig().WuKey + "/hourly/q/" + coord.Lat + "," + coord.Lon + ".json";
@@ -2021,7 +2021,7 @@ module.exports = {
 			var movie = q.array.join(' ');
 			
 			var xhr = new XMLHttpRequest();
-			var url = "http://api.rottentomatoes.com/api/public/v1.0/movies.json?q=" + encodeURIComponent(movie) + "&page_limit=10&page=1&apikey=9fhppvy3uscgxgmh4a8bzyaw";
+			var url = "http://api.rottentomatoes.com/api/public/v1.0/movies.json?q=" + encodeURIComponent(movie) + "&page_limit=10&page=1&apikey=<<ROTTEN_API_KEY>>";
 			xhr.open("GET", url, false);
 			xhr.send();
 			
@@ -2280,7 +2280,7 @@ module.exports = {
 	wolfram : function(q){
 		try{
 			var xhr = new XMLHttpRequest();
-			var url = "http://api.wolframalpha.com/v2/query?input=" + encodeURIComponent(q.array.join(' ')) + "&appid=" + (Config.getConfig().WolframKey === "" ? "AJT2G4-L6W7AQVER4" : Config.getConfig().WolframKey);
+			var url = "http://api.wolframalpha.com/v2/query?input=" + encodeURIComponent(q.array.join(' ')) + "&appid=" + (Config.getConfig().WolframKey === "" ? "<<WOLFRAM_API_KEY>>" : Config.getConfig().WolframKey);
 			xhr.open("GET", url, false);
 			xhr.send();
 			
@@ -2498,7 +2498,7 @@ module.exports = {
 			}
 			
 			var xhr = new XMLHttpRequest();
-			var url = "https://travel.ronnycarr.com/api/v1/current?apiKey=7s9ecxj4qk1xcv67x78d&token=" + travelKey; 
+			var url = "https://travel.ronnycarr.com/api/v1/current?apiKey=<<RONNY_CAR_API_KEY>>&token=" + travelKey; 
 			
 			xhr.open("GET", url, false);
 			xhr.send();
@@ -2535,7 +2535,7 @@ module.exports = {
 			var origin = Config.getCoords().Lat + "," + Config.getCoords().Lon;
 			
 			var xhr = new XMLHttpRequest();
-			var url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + origin + "&destinations=" + dest + "&key=AIzaSyCN9fD30P3qQqb3ONwaUfzh1aIaJBJpy_c&language=" + Config.getLang() + "&units=" + (Config.getConfig().DistanceUnit === Config.getConfig().METRIC ? "metric" : "imperial");
+			var url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + origin + "&destinations=" + dest + "&key=<<GOOGLE_MAPS_API_KEY>>&language=" + Config.getLang() + "&units=" + (Config.getConfig().DistanceUnit === Config.getConfig().METRIC ? "metric" : "imperial");
 			
 			xhr.open("GET", url, false);
 			xhr.send();
@@ -2562,7 +2562,7 @@ module.exports = {
 	open : function(q){
 		try{
 			var xhr = new XMLHttpRequest();
-			var url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + Config.getCoords().Lat + "," + Config.getCoords().Lon + "&radius=5000&types=food&name=" + q.array.join('%20') + "&key=AIzaSyCN9fD30P3qQqb3ONwaUfzh1aIaJBJpy_c";
+			var url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + Config.getCoords().Lat + "," + Config.getCoords().Lon + "&radius=5000&types=food&name=" + q.array.join('%20') + "&key=<<GOOGLE_MAPS_API_KEY>>";
 			xhr.open("GET", url, false);
 			xhr.send();
 			
